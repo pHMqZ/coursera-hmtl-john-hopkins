@@ -54,14 +54,19 @@ section>h2{
     background-color: #fff0b3;
 }
 
-/*ddevice specific style rules*/
+/*device specific style rules*/
 @media (min-width: 992px){
     .col-lg-4{
-        width: 33,33%;
+        float: left;
+        width: 33.33%;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
+    .col-md-6, .col-md-12{
+        float: left;
+    }
+
     .col-md-6{
         width: 50%;
     }
@@ -69,10 +74,16 @@ section>h2{
     .col-md-12{
         width: 100%;
     }
+
+    .sushi{
+        margin-right: 65px;
+        width: 100px;
+    }
 }
 
 @media (max-width: 767px){
-    .col-md-12{
+    .col-sm-12{
+        float: left;
         width: 100%
     }
 }
