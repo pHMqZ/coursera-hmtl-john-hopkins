@@ -1,0 +1,101 @@
+.body {
+    font-family: 'Oxygen', sans-serif;
+}
+
+/** Navbar **/
+.navbar {
+    border-radius: 0px;
+    background-color: #333;
+    border: 0;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+}
+
+
+.navbar-title {
+    font-size: 35px;
+    padding-left: 25px;
+}
+
+.navbar-title a:hover, .navbar-title a:focus {
+    text-decoration: none;
+}
+
+.main-title {
+    color: #fff;
+}
+
+/** Menu Dropdown **/
+.nav-list {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.navbar-nav {
+    font-size: 25px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #000;
+    display: block;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #000;
+}
+
+.navbar-default .navbar-nav>li>a:focus,.navbar-default .navbar-nav>li>a:hover {
+    color: #333;
+}
+
+.navbar-nav>li>a {
+    background-color: #eee
+}
+.navbar-toggle {
+    border: 2px solid #fff;
+    margin-right: 25px;
+}
+
+.icon-bar {
+    background-color: #fff;
+}
+
+.navbar-header button.navbar-toggle {
+    clear: both;
+    margin-top: -40px;
+}
+
+/** Main Content **/
+h2 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.row {
+    margin: 20px;
+}
+
+.content-box {
+    margin: 20px;
+    width: auto;
+    height: auto;
+    padding: 20px;
+    background-color: #d5d5d5;
+}
+
