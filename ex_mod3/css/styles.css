@@ -377,6 +377,24 @@ h3.menu-item-title {
         width: 360px;
         margin: 0 auto 15px;
     }
+
+    /** End homepage **/
+
+    /** Single categorie page **/
+
+    .menu-item-photo { 
+        margin-right: auto;
+    }
+
+    .menu-item-tile .menu-item-price {
+        text-align: center;
+    }
+
+    .menu-item-description {
+        text-align: center;
+    }
+
+    /** End Single categorie page **/
 }
 
 /** Super extra small devices only **/
