@@ -19,6 +19,9 @@ $(function () {
       "https://coursera-jhu-default-rtdb.firebaseio.com/categories.json";
     var categoriesTitleHtml = "snippets/categories-title-snippet.html";
     var categoryHtml = "snippets/category-snippet.html";
+    var menuItemUrl =  "https://coursera-jhu-default-rtdb.firebaseio.com/menu_items/";
+    var menuItemsTitleHtml = "snippets/menu-items-title.html";
+    var menuItemHtml = "snippets/menu-item.html";
   
     //Function for inserting innerHTML for 'select'
     var insertHtml = function (selector, html) {
@@ -57,6 +60,16 @@ $(function () {
     dc.loadMenuCategories = function () {
       showLoading("#main-content");
       $ajaxUtils.sendGetRequest(allCategoriesUrl, buildAndShowCategoriesHTML);
+    };
+
+    //load menu intems view
+    //'categoryShort' is a short_name for a category
+    dc.loadMenuItems = function (categoryShort) {
+        showLoading('#main-content');
+        $ajaxUtils.sendGetRequest(
+            menuItemUrl + categoryShort + ".json",
+            buildAndShowMenuItemsHtml
+        );
     };
   
     // Builds HTML for the categories page based on the data from server
@@ -106,6 +119,107 @@ $(function () {
       finalHtml += "</section>";
       return finalHtml;
     }
-  
+
+    //builds HTML for the single category page based on the data from server
+    function buildAndShowMenuItemsHtml (categoryMenuItems) {
+        //load title snippet of menu items page
+        $ajaxUtils.sendGetRequest(
+            menuItemsTitleHtml,
+            function (menuItemsTitleHtml) { 
+                //retive single menu item snippet
+                $ajaxUtils.sendGetRequest(
+                    menuItemHtml,
+                    function (menuItemHtml) {
+                        var menuItemsViewHtml = buildMenuItemsViewHtml(
+                            categoryMenuItems,
+                            menuItemsTitleHtml,
+                            menuItemHtml
+                        );
+                        insertHtml ('#main-content', menuItemsViewHtml);
+                    },
+                    false
+                );
+             },
+             false
+        );
+    }
+
+    //using category and menu items data and snippets html build menu items view html to inserted into page
+    function buildMenuItemsViewHtml (categoryMenuItems,
+        menuItemsTitleHtml,
+        menuItemHtml) { 
+            menuItemsTitleHtml = insertProperty(
+                menuItemsTitleHtml,
+                "name",
+                categoryMenuItems.category.name
+              );
+              menuItemsTitleHtml = insertProperty(
+                menuItemsTitleHtml,
+                "special_instructions",
+                categoryMenuItems.category.special_instructions
+              );
+          
+              var finalHtml = menuItemsTitleHtml;
+              finalHtml += "<section class='row'>";
+          
+              // Loop over menu items
+              var menuItems = categoryMenuItems.menu_items;
+              var catShortName = categoryMenuItems.category.short_name;
+              for (var i = 0; i < menuItems.length; i++) {
+                // Insert menu item values
+                var html = menuItemHtml;
+                html = insertProperty(html, "short_name", menuItems[i].short_name);
+                html = insertProperty(html, "catShortName", catShortName);
+                html = insertItemPrice(html, "price_small", menuItems[i].price_small);
+                html = insertItemPortionName(
+                  html,
+                  "small_portion_name",
+                  menuItems[i].small_portion_name
+                );
+                html = insertItemPrice(html, "price_large", menuItems[i].price_large);
+                html = insertItemPortionName(
+                  html,
+                  "large_portion_name",
+                  menuItems[i].large_portion_name
+                );
+                html = insertProperty(html, "name", menuItems[i].name);
+                html = insertProperty(html, "description", menuItems[i].description);
+          
+                // Add clearfix after every second menu item
+                if (i % 2 != 0) {
+                  html +=
+                    "<div class='clearfix visible-lg-block visible-md-block'></div>";
+                }
+          
+                finalHtml += html;
+              }
+          
+              finalHtml += "</section>";
+              return finalHtml;
+        }
+
+        //appends price with '$' if price exists
+        function insertItemPrice(html, pricePropName, priceValue) { 
+            //if not specified, replace with empty string
+            if(!priceValue){
+                return insertProperty(html, pricePropName, "");
+            }
+
+            priceValue = "$" + priceValue.toFixed(2);
+            html = insertProperty(html, pricePropName, priceValue);
+            return html;
+        }
+
+        //appends portion name in parens if exists
+        function insertItemPortionName(html, portionPropName, portionValue) { 
+            //if not specified, return original string
+            if(!portionValue){
+                return insertProperty(html, portionPropName, "");
+            }
+
+            portionValue = "(" + portionValue + ")";
+            html = insertProperty(html, portionPropName, portionValue);
+            return html;
+         }
     global.$dc = dc;
   })(window);
